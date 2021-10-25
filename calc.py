@@ -5,3 +5,7 @@ def calc(matrix):
 
 def replace(matrix , row , byRow):
     pass
+
+def interchange(matrix, row , byRow):
+    pass
+
