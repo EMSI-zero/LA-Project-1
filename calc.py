@@ -9,3 +9,5 @@ def replace(matrix , row , byRow):
 def interchange(matrix, row , byRow):
     pass
 
+def scale(matrix, row , times):
+    pass
