@@ -6,7 +6,17 @@ def calc(matrix):
     pass
 
 def replace(matrix , row , byRow):
-    pass
+
+    x = 0
+
+    if(matrix[byRow][0] != 0):
+        x = (matrix[row][0] / matrix[byRow][0]) * -1
+        print(x)
+    
+    for i in range(matrix.shape[1]):
+        matrix[row][i] = matrix[row][i] + (matrix[byRow][i] * x)
+    
+    return
 
 def interchange(matrix, row , withRow):
     tmp = copy.deepcopy(matrix[withRow])
@@ -26,7 +36,7 @@ def inputMatrix(m , n):
     AugMatRows = []
 
     for i in range(m):
-            AugMatRows = AugMatRows + list(map(int ,input().split()))
+            AugMatRows = AugMatRows + list(map(float ,input().split()))
 
     return np.array(AugMatRows).reshape((m,n))
 
