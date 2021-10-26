@@ -1,3 +1,4 @@
+from typing import List
 import numpy as np
 
 def calc(matrix):
@@ -15,3 +16,12 @@ def scale(matrix, row , times):
 
 def rowReduce(matrix):
     pass
+
+def inputMatrix(m , n):
+    AugMatRows = []
+
+    for i in range(m):
+            AugMatRows = AugMatRows + list(map(int ,input().split()))
+
+    return np.array(AugMatRows).reshape((m,n))
+
