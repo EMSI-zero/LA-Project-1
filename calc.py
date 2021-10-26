@@ -11,3 +11,7 @@ def interchange(matrix, row , byRow):
 
 def scale(matrix, row , times):
     pass
+
+
+def rowReduce(matrix):
+    pass
