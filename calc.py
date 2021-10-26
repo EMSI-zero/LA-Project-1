@@ -15,7 +15,8 @@ def interchange(matrix, row , withRow):
     return
 
 def scale(matrix, row , times):
-    pass
+    matrix[row] = [x * times for x in matrix[row]]
+    return
 
 
 def rowReduce(matrix):
@@ -36,7 +37,5 @@ def printUndecorated(matrix):
 
 matSize = list(map(int ,input().split()))
 AugMat = inputMatrix(matSize[0] , matSize[1])
-
-interchange(AugMat , 0 , 2)
 
 printUndecorated(AugMat)
