@@ -1,5 +1,6 @@
 from typing import List
 import numpy as np
+import copy
 
 def calc(matrix):
     pass
@@ -7,8 +8,11 @@ def calc(matrix):
 def replace(matrix , row , byRow):
     pass
 
-def interchange(matrix, row , byRow):
-    pass
+def interchange(matrix, row , withRow):
+    tmp = copy.deepcopy(matrix[withRow])
+    matrix[withRow] = matrix[row]
+    matrix[row] = tmp
+    return
 
 def scale(matrix, row , times):
     pass
@@ -28,4 +32,5 @@ def inputMatrix(m , n):
 def printUndecorated(matrix):
     for i in matrix:
         print(' '.join(i.astype(str)))
+
 
