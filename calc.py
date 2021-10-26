@@ -25,3 +25,7 @@ def inputMatrix(m , n):
 
     return np.array(AugMatRows).reshape((m,n))
 
+def printUndecorated(matrix):
+    for i in matrix:
+        print(' '.join(i.astype(str)))
+
