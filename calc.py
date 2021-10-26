@@ -34,3 +34,9 @@ def printUndecorated(matrix):
         print(' '.join(i.astype(str)))
 
 
+matSize = list(map(int ,input().split()))
+AugMat = inputMatrix(matSize[0] , matSize[1])
+
+interchange(AugMat , 0 , 2)
+
+printUndecorated(AugMat)
