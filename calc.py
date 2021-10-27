@@ -8,17 +8,21 @@ def calc(matrix):
 def replace(matrix , row , byRow):
 
     x = 0
+    nonZero = 0
+    while(matrix[row][nonZero] * matrix[byRow][nonZero] == 0):
+        nonZero += 1
 
-    if(matrix[byRow][0] != 0):
-        x = (matrix[row][0] / matrix[byRow][0]) * -1
-        print(x)
+    if(matrix[byRow][nonZero] != 0):
+        x = round((matrix[row][nonZero] / matrix[byRow][nonZero]) * -1 , 3)
+        print('x=', x)
     
-    for i in range(matrix.shape[1]):
-        matrix[row][i] = matrix[row][i] + (matrix[byRow][i] * x)
+    for i in range(nonZero , matrix.shape[1]):
+        matrix[row][i] = round(matrix[row][i] + (matrix[byRow][i] * x),2)
     
     return
 
 def interchange(matrix, row , withRow):
+    print('interchange')
     tmp = copy.deepcopy(matrix[withRow])
     matrix[withRow] = matrix[row]
     matrix[row] = tmp
@@ -27,6 +31,13 @@ def interchange(matrix, row , withRow):
 def scale(matrix, row , times):
     matrix[row] = [x * times for x in matrix[row]]
     return
+
+def zeroBelow(matrix , PP):
+    for y in range(PP[1] + 1 , matrix.shape[0]):
+        print('form pivot', y , PP[1])
+        printUndecorated(matrix)
+        if matrix[y, PP[0]] !=0:
+            replace(matrix , y , PP[1])
 
 
 def rowReduce(matrix):
@@ -47,5 +58,6 @@ def printUndecorated(matrix):
 
 matSize = list(map(int ,input().split()))
 AugMat = inputMatrix(matSize[0] , matSize[1])
+
 
 printUndecorated(AugMat)
