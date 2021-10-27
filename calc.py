@@ -39,6 +39,36 @@ def zeroBelow(matrix , PP):
         if matrix[y, PP[0]] !=0:
             replace(matrix , y , PP[1])
 
+def formEch(matrix):
+
+    Px = 0
+    Py = 0
+    Ps = []
+
+    while(Px < matSize[1] and Py < matSize[0]):
+        print('++')
+        printUndecorated(AugMat)
+        print(Ps)
+        if (AugMat[Py][Px] == 0):
+            for y in range(Py , matSize[1]):
+                if (y<matSize[0] and Px < matSize[1]):
+                    if  AugMat[y][Px] != 0:
+                        interchange(AugMat , Py , y)
+                        Ps.append((Px , Py))
+                        zeroBelow(AugMat , (Px,Py))
+                        Px+=1
+                        Py+=1
+                        break
+            else:
+                Px+=1
+        else:
+            Ps.append((Px , Py))
+            zeroBelow(AugMat , (Px,Py))
+            Px+=1
+            Py+=1
+    return Ps
+
+
 
 def rowReduce(matrix):
     pass
@@ -59,5 +89,10 @@ def printUndecorated(matrix):
 matSize = list(map(int ,input().split()))
 AugMat = inputMatrix(matSize[0] , matSize[1])
 
+pivotPoints = formEch(AugMat)
+
+
 
 printUndecorated(AugMat)
+
+print(pivotPoints)
