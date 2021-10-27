@@ -28,7 +28,11 @@ def interchange(matrix, row , withRow):
     matrix[row] = tmp
     return
 
-def scale(matrix, row , times):
+def scaleToOne(matrix, row):
+    n =  0
+    while(matrix[row , n] == 0):
+        n+=1
+    times = 1 / matrix[row,n]
     matrix[row] = [x * times for x in matrix[row]]
     return
 
@@ -71,6 +75,10 @@ def formEch(matrix):
 
 
 def rowReduce(matrix):
+    for i in reversed(range(0,matrix.shape[0])):
+        scaleToOne(matrix, i)
+        for j in reversed(range(0,i)):
+            replace(matrix , j , i)
     pass
 
 def inputMatrix(m , n):
@@ -90,6 +98,7 @@ matSize = list(map(int ,input().split()))
 AugMat = inputMatrix(matSize[0] , matSize[1])
 
 pivotPoints = formEch(AugMat)
+rowReduce(AugMat)
 
 
 
