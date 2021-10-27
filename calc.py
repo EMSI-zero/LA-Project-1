@@ -14,7 +14,6 @@ def replace(matrix , row , byRow):
 
     if(matrix[byRow][nonZero] != 0):
         x = (matrix[row][nonZero] / matrix[byRow][nonZero]) * -1
-        print('x=', x)
     
     for i in range(nonZero , matrix.shape[1]):
         matrix[row][i] = matrix[row][i] + (matrix[byRow][i] * x)
@@ -22,7 +21,6 @@ def replace(matrix , row , byRow):
     return
 
 def interchange(matrix, row , withRow):
-    print('interchange')
     tmp = copy.deepcopy(matrix[withRow])
     matrix[withRow] = matrix[row]
     matrix[row] = tmp
@@ -38,8 +36,6 @@ def scaleToOne(matrix, row):
 
 def zeroBelow(matrix , PP):
     for y in range(PP[1] + 1 , matrix.shape[0]):
-        print('form pivot', y , PP[1])
-        printUndecorated(matrix)
         if matrix[y, PP[0]] !=0:
             replace(matrix , y , PP[1])
 
@@ -50,9 +46,7 @@ def formEch(matrix):
     Ps = []
 
     while(Px < matSize[1] and Py < matSize[0]):
-        print('++')
-        printUndecorated(AugMat)
-        print(Ps)
+        
         if (AugMat[Py][Px] == 0):
             for y in range(Py , matSize[1]):
                 if (y<matSize[0] and Px < matSize[1]):
@@ -107,7 +101,6 @@ AugMat = inputMatrix(matSize[0] , matSize[1])
 
 pivotPoints = formEch(AugMat)
 rowReduce(AugMat)
-roundElements(AugMat)
 
 
 printUndecorated(AugMat)
