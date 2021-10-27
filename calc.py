@@ -83,6 +83,12 @@ def roundElements(matrix):
             matrix[i,j] = round(matrix[i,j] , 3)
 
 
+def calculateRow(P ,row):
+    x = row[matSize[1]-1]
+    for i in range(P[0]+1 , matSize[1] -1):
+        x -= 10* row[i]
+    return x
+
 def inputMatrix(m , n):
     AugMatRows = []
 
