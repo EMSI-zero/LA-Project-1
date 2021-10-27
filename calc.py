@@ -13,11 +13,11 @@ def replace(matrix , row , byRow):
         nonZero += 1
 
     if(matrix[byRow][nonZero] != 0):
-        x = round((matrix[row][nonZero] / matrix[byRow][nonZero]) * -1 , 3)
+        x = (matrix[row][nonZero] / matrix[byRow][nonZero]) * -1
         print('x=', x)
     
     for i in range(nonZero , matrix.shape[1]):
-        matrix[row][i] = round(matrix[row][i] + (matrix[byRow][i] * x),2)
+        matrix[row][i] = matrix[row][i] + (matrix[byRow][i] * x)
     
     return
 
@@ -79,7 +79,15 @@ def rowReduce(matrix):
         scaleToOne(matrix, i)
         for j in reversed(range(0,i)):
             replace(matrix , j , i)
-    pass
+    roundElements(AugMat)
+
+
+
+def roundElements(matrix):
+    for i in range(matrix.shape[0]):
+        for j in range(matrix.shape[1]):
+            matrix[i,j] = round(matrix[i,j] , 3)
+
 
 def inputMatrix(m , n):
     AugMatRows = []
@@ -99,7 +107,7 @@ AugMat = inputMatrix(matSize[0] , matSize[1])
 
 pivotPoints = formEch(AugMat)
 rowReduce(AugMat)
-
+roundElements(AugMat)
 
 
 printUndecorated(AugMat)
