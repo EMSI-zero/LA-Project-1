@@ -2,7 +2,19 @@ from typing import List
 import numpy as np
 import copy
 
+   
 def calc(matrix , Ps):
+    """ Calculates equation variables based on row reduced echeleon matrix.
+    Replaces any free variable with 10.
+
+    Parameters
+    ----------
+    matrix : numpy array
+        Row reduced echeleon form of matrix
+    Ps : list of tuples
+        Pivot positions of the matrix
+    """
+
     # print("calc:\n")
     Px = 0
     Py = 0
@@ -17,9 +29,22 @@ def calc(matrix , Ps):
             if Py !=  matrix.shape[0] -1:
                 Py+=1
     # printUndecorated(matrix)
-    pass
 
 def replace(matrix , row , byRow):
+    """Performs the Replacement Row Function on a row by another row on the matrix.
+    In this function (row) must be below (byRow). 
+
+    Parameters
+    ----------
+    matrix: numpy array
+        Given matrix
+    row: list of numbers
+        row to be replaces
+    by row : list of numbers
+        row to replace by
+    """
+
+
     # print("replace:\n")
 
     x = 0
@@ -33,9 +58,21 @@ def replace(matrix , row , byRow):
     for i in range(nonZero , matrix.shape[1]):
         matrix[row][i] = matrix[row][i] + (matrix[byRow][i] * x)
     # printUndecorated(matrix)
-    return
+
 
 def reverseReplace(matrix , row , byRow):
+    """Performs the Replacement Row Function on a row by another row on the matrix.
+    In this function (byRow) must be below (row).
+
+    Parameters
+    ----------
+    matrix: numpy array
+        Given matrix
+    row: list of numbers
+        row to be replaces
+    by row : list of numbers
+        row to replace by 
+    """
     # print("reverse replace:\n")
 
     x = 0
@@ -52,6 +89,15 @@ def reverseReplace(matrix , row , byRow):
     return
 
 def interchange(matrix, row , withRow):
+    """Performs the Interchane Row Function.
+    Parameters
+    ----------
+    matrix : numpy array
+        Given matrix
+    row : list of numbers
+    withRow : list of numbers
+    
+    """
     # print("interchange:\n")
 
     tmp = copy.deepcopy(matrix[withRow])
@@ -61,6 +107,16 @@ def interchange(matrix, row , withRow):
     return
 
 def scaleToOne(matrix, row):
+    """Performs the Scale Row Function by one.
+    Scales the Given by the inverse of the first non-Zero entry.
+
+    Parameters
+    ----------
+    matrix : np array
+        Given matrix
+    row : list of numbers
+        row to scale
+    """
     # print("scale:\n")
     n =  0
     # print("row"+str(row))
@@ -75,6 +131,15 @@ def scaleToOne(matrix, row):
     return
 
 def zeroBelow(matrix , PP):
+    """ Creates zeros below a pivot point.
+
+    Parameters
+    ----------
+    matrix: np array
+        Given matrix
+    PP : tuple
+        Pivot Point
+    """
     # print("zero down:\n")
 
     for y in range(PP[1] + 1 , matrix.shape[0]):
@@ -83,6 +148,20 @@ def zeroBelow(matrix , PP):
     # printUndecorated(matrix)
 
 def formEch(matrix):
+    """Changes the matrix to an echeleon form. 
+    Forward Phase.
+
+
+    Parameters
+    ----------
+    matrix : np array
+        Given Matrix
+    
+    Returns
+    -------
+    Ps : list of tuples
+        Echeleon form pivot positions
+    """
     # print("form echeleon:\n")
 
     Px = 0
@@ -114,6 +193,14 @@ def formEch(matrix):
 
 
 def rowReduce(matrix):
+    """Row Reduces the Echeleon Form matrix.
+    Backward Phase.
+    
+    Parameters
+    ----------
+    matrix: np array
+        Given Matrix
+    """
     # print("row reduce:\n")
 
     for i in reversed(range(0,matrix.shape[0])):
@@ -126,18 +213,54 @@ def rowReduce(matrix):
 
 
 def roundElements(matrix):
+    """ Rounds the all the elements of matrix by 3
+    
+    Parameters
+    ----------
+    matrix: np array
+        Given Matrix
+    """
     for i in range(matrix.shape[0]):
         for j in range(matrix.shape[1]):
             matrix[i,j] = round(matrix[i,j] , 3)
 
 
 def calculateRow(P ,row):
+    """ Calculates the constant variables of a row.
+    Each pivot point represents a variable and replaces any other variables with nonzero coefficients to 10.
+    
+    Parameters
+    ---------
+    P: tuple
+        Pivot Point
+    row : list of numbers
+        row of the pivot point
+    
+    Returns
+    -------
+    x : float
+        value of variable xn
+    """
     x = row[matSize[1]-1]
     for i in range(P[0]+1 , matSize[1] -1):
         x -= 10* row[i]
     return x
 
 def inputMatrix(m , n):
+    """Inputs a matrix frome console in the form of lines and changes it to matrix form.
+
+    Parameters
+    ----------
+    m : int 
+        number of rows
+    n : int
+        number of columns
+    
+    Returns
+    -------
+    matrix : np array
+        matrix in the form of numpy array 
+    """
     AugMatRows = []
 
     for i in range(m):
@@ -146,16 +269,30 @@ def inputMatrix(m , n):
     return np.array(AugMatRows).reshape((m,n))
 
 def printUndecorated(matrix):
+    """ prints the numpy array without the bracets.
+
+    Parameters
+    ----------
+    matrix: np array
+        Given Matrix    
+    """
     for i in matrix:
         print(' '.join(i.astype(str)))
 
-
+#Initiate the matrix
 matSize = list(map(int ,input().split()))
+
+#Input the matrix from console
 AugMat = inputMatrix(matSize[0] , matSize[1])
 
+#Forward Phase
 pivotPoints = formEch(AugMat)
+#Backward Phase
 rowReduce(AugMat)
+
+#Output matrix
 printUndecorated(AugMat)
 
+#Calculate and output the answers
 calc(AugMat, pivotPoints)
 
