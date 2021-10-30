@@ -2,44 +2,88 @@ from typing import List
 import numpy as np
 import copy
 
-def calc(matrix):
+def calc(matrix , Ps):
+    # print("calc:\n")
+    Px = 0
+    Py = 0
+    while(Px < matrix.shape[1] -1):
+        if (Px , Py) not in Ps:
+            print("X" + str(Px+1) + " = 10")
+            Px += 1
+        else:
+            x = calculateRow((Px , Py) , matrix[Py])
+            print("X" + str(Px+1) + " = " + str(x))
+            Px+=1
+            if Py !=  matrix.shape[0] -1:
+                Py+=1
+    # printUndecorated(matrix)
     pass
 
 def replace(matrix , row , byRow):
+    # print("replace:\n")
 
     x = 0
     nonZero = 0
-    while(matrix[row][nonZero] * matrix[byRow][nonZero] == 0):
+    while(matrix[row][nonZero]== 0 and nonZero< matrix.shape[1]):
         nonZero += 1
-
     if(matrix[byRow][nonZero] != 0):
         x = (matrix[row][nonZero] / matrix[byRow][nonZero]) * -1
-    
+    else:
+        pass
     for i in range(nonZero , matrix.shape[1]):
         matrix[row][i] = matrix[row][i] + (matrix[byRow][i] * x)
-    
+    # printUndecorated(matrix)
+    return
+
+def reverseReplace(matrix , row , byRow):
+    # print("reverse replace:\n")
+
+    x = 0
+    nonZero = 0
+    while(matrix[byRow][nonZero]== 0 and nonZero< matrix.shape[1]-1):
+        nonZero += 1
+    if(matrix[byRow][nonZero] != 0):
+        x = (matrix[row][nonZero] / matrix[byRow][nonZero]) * -1
+    else:
+        pass
+    for i in range(nonZero , matrix.shape[1]):
+        matrix[row][i] = matrix[row][i] + (matrix[byRow][i] * x)
+    # printUndecorated(matrix)
     return
 
 def interchange(matrix, row , withRow):
+    # print("interchange:\n")
+
     tmp = copy.deepcopy(matrix[withRow])
     matrix[withRow] = matrix[row]
     matrix[row] = tmp
+    # printUndecorated(matrix)
     return
 
 def scaleToOne(matrix, row):
+    # print("scale:\n")
     n =  0
-    while(matrix[row , n] == 0):
+    # print("row"+str(row))
+    while(matrix[row , n] == 0 and n < matrix.shape[1]-1):
         n+=1
-    times = 1 / matrix[row,n]
+        print(str(n))
+    # printUndecorated(matrix)
+    times = 0
+    if matrix[row,n] !=0:    
+        times = 1 / matrix[row,n]
     matrix[row] = [x * times for x in matrix[row]]
     return
 
 def zeroBelow(matrix , PP):
+    # print("zero down:\n")
+
     for y in range(PP[1] + 1 , matrix.shape[0]):
         if matrix[y, PP[0]] !=0:
             replace(matrix , y , PP[1])
+    # printUndecorated(matrix)
 
 def formEch(matrix):
+    # print("form echeleon:\n")
 
     Px = 0
     Py = 0
@@ -64,16 +108,20 @@ def formEch(matrix):
             zeroBelow(AugMat , (Px,Py))
             Px+=1
             Py+=1
+    # printUndecorated(matrix)
     return Ps
 
 
 
 def rowReduce(matrix):
+    # print("row reduce:\n")
+
     for i in reversed(range(0,matrix.shape[0])):
         scaleToOne(matrix, i)
         for j in reversed(range(0,i)):
-            replace(matrix , j , i)
+            reverseReplace(matrix, j , i)
     roundElements(AugMat)
+    # printUndecorated(matrix)
 
 
 
@@ -107,8 +155,7 @@ AugMat = inputMatrix(matSize[0] , matSize[1])
 
 pivotPoints = formEch(AugMat)
 rowReduce(AugMat)
-
-
 printUndecorated(AugMat)
 
-print(pivotPoints)
+calc(AugMat, pivotPoints)
+
